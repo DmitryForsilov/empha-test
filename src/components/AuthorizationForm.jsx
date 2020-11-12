@@ -1,19 +1,22 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useDispatch } from 'react-redux';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import usersApi from '../api/usersApi';
+import { actions } from '../redux/slices';
 
 const authorizationSchema = yup.object().shape({
   username: yup.string().required('Username is required'),
   password: yup.string().required('Password is required'),
 });
 
-const generateOnSubmit = () => async (fieldsData, { setErrors, resetForm }) => {
+const generateOnSubmit = (dispatch) => async (fieldsData, { setErrors, resetForm }) => {
   try {
-    const { data } = await usersApi.getAuthToken(fieldsData);
+    const { data: token } = await usersApi.getAuthToken(fieldsData);
 
-    console.log(data);
+    console.log(token);
+    dispatch(actions.setAuthorizationToken({ token }));
     resetForm();
   } catch (error) {
     console.log(error);
@@ -22,7 +25,7 @@ const generateOnSubmit = () => async (fieldsData, { setErrors, resetForm }) => {
 };
 
 const renderForm = (formik) => (
-  <Form onSubmit={formik.handleSubmit} className="m-auto p-4 rounded-lg shadow bg-white w-75" style={{ maxWidth: '520px' }}>
+  <Form onSubmit={formik.handleSubmit} className="m-auto p-4 rounded-lg shadow bg-white w-75" style={{ maxWidth: '420px' }}>
     <h2>Authorization</h2>
     <Form.Group>
       <Form.Label>Username</Form.Label>
@@ -70,13 +73,14 @@ const renderForm = (formik) => (
 );
 
 export default () => {
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
     validationSchema: authorizationSchema,
-    onSubmit: generateOnSubmit(),
+    onSubmit: generateOnSubmit(dispatch),
   });
 
   return renderForm(formik);
