@@ -7,6 +7,7 @@ const usersSlice = createSlice({
   initialState: {
     usersById: {},
     allIds: [],
+    usernameFilter: '',
     submitting: false,
     submitError: null,
   },
@@ -28,10 +29,13 @@ const usersSlice = createSlice({
       state.submitError = error || null;
     },
     sortIdsByBigger(state) {
-      state.allIds.sort((a, b) => a - b);
+      state.allIds.sort((a, b) => b - a);
     },
     sortIdsBySmaller(state) {
-      state.allIds.sort((a, b) => b - a);
+      state.allIds.sort((a, b) => a - b);
+    },
+    setUsernameFilter(state, { payload: { filter } }) {
+      state.usernameFilter = filter;
     },
   },
 });

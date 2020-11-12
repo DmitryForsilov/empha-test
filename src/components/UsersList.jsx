@@ -18,16 +18,32 @@ const generateSortIdsBySmaller = ({ dispatch }) => () => {
   dispatch(actions.sortIdsBySmaller());
 };
 
+const generateSetUsernameFilter = ({ dispatch }) => ({ target }) => {
+  dispatch(actions.setUsernameFilter({ filter: target.value }));
+};
+
 const renderIdCheckboxes = ({ handleSortIdsByBigger, handleSortIdsBySmaller }) => (
   <div>
-    <Button className="mr-2" variant="outline-primary" onClick={handleSortIdsByBigger}>Sort by bigger</Button>
-    <Button variant="outline-primary" onClick={handleSortIdsBySmaller}>Sort by smaller</Button>
+    <Button className="w-100" variant="outline-primary" onClick={handleSortIdsByBigger} style={{ maxWidth: '234px' }}>Sort by bigger</Button>
+    <Button className="w-100" variant="outline-primary" onClick={handleSortIdsBySmaller} style={{ maxWidth: '234px' }}>Sort by smaller</Button>
   </div>
+);
+
+const renderUsernameFilter = ({ handleSetUsernameFilter }) => (
+  <input
+    className="pl-2 w-100"
+    type="text"
+    placeholder="Enter username filter"
+    style={{ maxWidth: '215px' }}
+    onChange={handleSetUsernameFilter}
+  />
 );
 
 export default () => {
   const usersData = useSelector(({ users }) => users.allIds
     .map((id) => users.usersById[id]));
+  const usernameFilter = useSelector(({ users }) => users.usernameFilter);
+  const filteredUsersData = usersData.filter((user) => user.username.includes(usernameFilter));
   const dispatch = useDispatch();
 
   if (usersData.length === 0) {
@@ -36,17 +52,21 @@ export default () => {
 
   const handleSortIdsByBigger = generateSortIdsByBigger({ dispatch });
   const handleSortIdsBySmaller = generateSortIdsBySmaller({ dispatch });
+  const handleSetUsernameFilter = generateSetUsernameFilter({ dispatch });
 
   return (
     <div className="bg-light">
       <div className="d-flex border-bottom border-dark">
-        <div className="col text-center m-0 p-2 border text-info font-weight-bold d-flex justify-content-around align-items-center">
+        <div className="col text-center m-0 p-2 border text-info font-weight-bold d-flex justify-content-around align-items-center flex-wrap">
           ID
           {renderIdCheckboxes({ handleSortIdsByBigger, handleSortIdsBySmaller })}
         </div>
-        <p className="col text-center m-0 p-2 border text-info font-weight-bold">USERNAME</p>
+        <div className="col text-center m-0 p-2 border text-info font-weight-bold d-flex justify-content-around align-items-center flex-wrap">
+          USERNAME
+          {renderUsernameFilter({ handleSetUsernameFilter })}
+        </div>
       </div>
-      {usersData.map(renderUser)}
+      {filteredUsersData.map(renderUser)}
     </div>
   );
 };
