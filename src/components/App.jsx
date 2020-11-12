@@ -1,5 +1,11 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import HomePage from '../pages/home';
 
 export default () => (
-  <div className="">Wow</div>
+  <BrowserRouter>
+    <Switch>
+      <Route path="/" component={HomePage} />
+    </Switch>
+  </BrowserRouter>
 );
