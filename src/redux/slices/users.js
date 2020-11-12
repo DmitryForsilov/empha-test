@@ -12,16 +12,26 @@ const usersSlice = createSlice({
   },
   reducers: {
     downloadUsersSuccess(state, { payload: { users } }) {
+      const allIds = [];
+
       users.forEach((user) => {
         state.usersById[user.id] = user;
-        state.allIds.push(user.id);
+        allIds.push(user.id);
       });
+
+      state.allIds = allIds;
     },
     toggleUsersSubmitState(state) {
       state.submitting = !state.submitting;
     },
     setUsersSubmitError(state, { payload: { error } }) {
       state.submitError = error || null;
+    },
+    sortIdsByBigger(state) {
+      state.allIds.sort((a, b) => a - b);
+    },
+    sortIdsBySmaller(state) {
+      state.allIds.sort((a, b) => b - a);
     },
   },
 });
@@ -35,7 +45,6 @@ const downloadUsers = ({ authorizationToken }) => async (dispatch) => {
   try {
     const { data: users } = await usersApi.getUsers({ authorizationToken });
 
-    console.log(users);
     dispatch(downloadUsersSuccess({ users }));
   } catch (error) {
     console.log(error);
