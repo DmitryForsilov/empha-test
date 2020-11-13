@@ -36,7 +36,11 @@ const renderDownloadUsersButton = (args) => {
 };
 
 const generateHandleLogoutButton = ({ dispatch }) => () => {
-  dispatch(actions.setAuthorization({ loggedIn: false, token: null }));
+  const confirmation = window.confirm('Do you really want to logout?');
+
+  if (confirmation) {
+    dispatch(actions.setAuthorization({ loggedIn: false, token: null }));
+  }
 };
 
 export default () => {

@@ -33,6 +33,7 @@
     ],
     "rules": {
       "no-console": "off",
+      "no-alert": "off",
       "import/extensions": "off",
       "react/jsx-filename-extension": [
         1,
