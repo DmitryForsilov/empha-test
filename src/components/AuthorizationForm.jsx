@@ -1,8 +1,8 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect, useLocation } from 'react-router-dom';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import usersApi from '../api/usersApi';
 import { actions } from '../redux/slices';
@@ -12,15 +12,12 @@ const authorizationSchema = yup.object().shape({
   password: yup.string().required('Password is required'),
 });
 
-const generateOnSubmit = (args) => async (fieldsData, { setErrors, resetForm }) => {
-  const { history, dispatch } = args;
-
+const generateOnSubmit = ({ dispatch }) => async (fieldsData, { setErrors, resetForm }) => {
   try {
     const { data } = await usersApi.getAuthToken(fieldsData);
 
-    dispatch(actions.setAuthorization({ token: data.token }));
     resetForm();
-    history.push('/users');
+    dispatch(actions.setAuthorization({ loggedIn: true, token: data.token }));
   } catch (error) {
     console.log(error);
     setErrors({ submitError: error.message });
@@ -77,15 +74,21 @@ const renderForm = (formik) => (
 
 export default () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: '/users' } };
+  const loggedIn = useSelector(({ authorization }) => authorization.loggedIn);
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
     validationSchema: authorizationSchema,
-    onSubmit: generateOnSubmit({ history, dispatch }),
+    onSubmit: generateOnSubmit({ dispatch }),
   });
+
+  if (loggedIn) {
+    return <Redirect to={from} />;
+  }
 
   return renderForm(formik);
 };

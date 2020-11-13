@@ -6,10 +6,6 @@ const baseUrl = process.env.NODE_ENV === 'development'
   ? `${proxy}/${apiUrl}`
   : apiUrl;
 
-// test_super
-// Nf<U4f<rDbtDxAPn
-// '781bd9f1de084f4daa7ba2aa8a71a2eab855354e'
-
 const getAuthToken = async ({ username, password }) => {
   const response = await axios.post(`${baseUrl}/api-token-auth/`, {
     username,

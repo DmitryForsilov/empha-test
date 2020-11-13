@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Redirect, useLocation } from 'react-router-dom';
 import { Button, Spinner } from 'react-bootstrap';
 import { actions } from '../../redux/slices';
 import UsersList from '../../components/UsersList';
@@ -34,15 +35,22 @@ const renderDownloadUsersButton = (args) => {
   );
 };
 
-const handleLogoutButton = () => {
-  console.log('logout');
+const generateHandleLogoutButton = ({ dispatch }) => () => {
+  dispatch(actions.setAuthorization({ loggedIn: false, token: null }));
 };
 
 export default () => {
   const usersSubmitting = useSelector(({ users }) => users.submitting);
   const usersSubmitError = useSelector(({ users }) => users.submitError);
   const authorizationToken = useSelector(({ authorization }) => authorization.token);
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: '/' } };
+  const loggedIn = useSelector(({ authorization }) => authorization.loggedIn);
   const dispatch = useDispatch();
+
+  if (!loggedIn) {
+    return <Redirect to={from} />;
+  }
 
   return (
     <>
@@ -50,7 +58,7 @@ export default () => {
         {renderDownloadUsersButton({
           usersSubmitting, usersSubmitError, authorizationToken, dispatch,
         })}
-        <Button variant="warning" type="button" onClick={handleLogoutButton}>
+        <Button variant="warning" type="button" onClick={generateHandleLogoutButton({ dispatch })}>
           <LogoutIcon />
         </Button>
       </header>
