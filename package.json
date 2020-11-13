@@ -1,6 +1,6 @@
 {
   "name": "empha-test",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",

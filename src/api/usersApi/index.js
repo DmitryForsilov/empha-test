@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const proxy = 'https://cors-anywhere.herokuapp.com';
-const apiUrl = 'http://emphasoft-test-assignment.herokuapp.com';
+const apiUrl = 'https://emphasoft-test-assignment.herokuapp.com';
 const baseUrl = process.env.NODE_ENV === 'development'
   ? `${proxy}/${apiUrl}`
   : apiUrl;
