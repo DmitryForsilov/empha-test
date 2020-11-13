@@ -2,6 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import usersApi from '../api/usersApi';
 import { actions } from '../redux/slices';
@@ -11,13 +12,15 @@ const authorizationSchema = yup.object().shape({
   password: yup.string().required('Password is required'),
 });
 
-const generateOnSubmit = (dispatch) => async (fieldsData, { setErrors, resetForm }) => {
-  try {
-    const { data: token } = await usersApi.getAuthToken(fieldsData);
+const generateOnSubmit = (args) => async (fieldsData, { setErrors, resetForm }) => {
+  const { history, dispatch } = args;
 
-    console.log(token);
-    dispatch(actions.setAuthorizationToken({ token }));
+  try {
+    const { data } = await usersApi.getAuthToken(fieldsData);
+
+    dispatch(actions.setAuthorization({ token: data.token }));
     resetForm();
+    history.push('/users');
   } catch (error) {
     console.log(error);
     setErrors({ submitError: error.message });
@@ -74,13 +77,14 @@ const renderForm = (formik) => (
 
 export default () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
     validationSchema: authorizationSchema,
-    onSubmit: generateOnSubmit(dispatch),
+    onSubmit: generateOnSubmit({ history, dispatch }),
   });
 
   return renderForm(formik);

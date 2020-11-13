@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-const proxy = 'https://cors-anywhere.herokuapp.com/';
-const baseUrl = 'http://emphasoft-test-assignment.herokuapp.com';
+const proxy = 'https://cors-anywhere.herokuapp.com';
+const apiUrl = 'http://emphasoft-test-assignment.herokuapp.com';
+const baseUrl = process.env.NODE_ENV === 'development'
+  ? `${proxy}/${apiUrl}`
+  : apiUrl;
 
 // test_super
 // Nf<U4f<rDbtDxAPn
@@ -17,8 +20,7 @@ const getAuthToken = async ({ username, password }) => {
 };
 
 const getUsers = async ({ authorizationToken }) => {
-  const url = `${proxy}${baseUrl}`;
-  const response = await axios.get(`${url}/api/v1/users/`, {
+  const response = await axios.get(`${baseUrl}/api/v1/users/`, {
     headers: {
       authorization: `token ${authorizationToken}`,
     },

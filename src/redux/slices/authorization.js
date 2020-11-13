@@ -4,11 +4,11 @@ import { createSlice } from '@reduxjs/toolkit';
 const authorizationSlice = createSlice({
   name: 'authorization',
   initialState: {
-    token: '781bd9f1de084f4daa7ba2aa8a71a2eab855354e',
+    token: null,
   },
   reducers: {
-    setAuthorizationToken(state, { payload: { token } }) {
-      state.token = token;
+    setAuthorization(state, { payload: { token } }) {
+      state.token = token || null;
     },
   },
 });

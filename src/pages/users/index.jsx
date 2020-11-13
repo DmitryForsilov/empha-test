@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button, Spinner } from 'react-bootstrap';
 import { actions } from '../../redux/slices';
 import UsersList from '../../components/UsersList';
+import { ReactComponent as LogoutIcon } from '../../images/logout-icon.svg';
 
 const generateDownloadUsersHandler = ({ authorizationToken, dispatch }) => async () => {
   dispatch(actions.downloadUsers({ authorizationToken }));
@@ -45,16 +46,12 @@ export default () => {
 
   return (
     <>
-      <header className="p-3 border-bottom border-dark d-flex justify-content-between">
+      <header className="p-4 border-bottom border-dark d-flex justify-content-between">
         {renderDownloadUsersButton({
           usersSubmitting, usersSubmitError, authorizationToken, dispatch,
         })}
         <Button variant="warning" type="button" onClick={handleLogoutButton}>
-          <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g id="logout-button" opacity=".8" stroke="#0D0D0D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" />
-            </g>
-          </svg>
+          <LogoutIcon />
         </Button>
       </header>
       <UsersList />

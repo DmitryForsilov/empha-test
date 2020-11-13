@@ -3,13 +3,6 @@ import { Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { actions } from '../redux/slices';
 
-const renderUser = (data) => (
-  <div className="d-flex" key={data.id}>
-    <p className="col text-center m-0 p-2 border">{data.id}</p>
-    <p className="col text-center m-0 p-2 border">{data.username}</p>
-  </div>
-);
-
 const generateSortIdsByBigger = ({ dispatch }) => () => {
   dispatch(actions.sortIdsByBigger());
 };
@@ -37,6 +30,13 @@ const renderUsernameFilter = ({ handleSetUsernameFilter }) => (
     style={{ maxWidth: '215px' }}
     onChange={handleSetUsernameFilter}
   />
+);
+
+const renderUser = (data) => (
+  <div className="d-flex" key={data.id}>
+    <p className="col text-center m-0 p-2 border">{data.id}</p>
+    <p className="col text-center m-0 p-2 border">{data.username}</p>
+  </div>
 );
 
 export default () => {
