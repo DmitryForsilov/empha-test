@@ -2,7 +2,7 @@
   "name": "empha-test",
   "version": "0.8.0",
   "private": true,
-  "homepage": "https://dmitryforsilov.github.io/empha-test/",
+  "homepage": "https://dmitryforsilov.github.io",
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^5.11.5",
@@ -26,7 +26,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "NODE_ENV=production gh-pages -d build"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
