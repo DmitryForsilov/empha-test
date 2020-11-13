@@ -2,7 +2,7 @@
   "name": "empha-test",
   "version": "0.8.0",
   "private": true,
-  "homepage": "https://github.com/DmitryForsilov/empha-test",
+  "homepage": "https://dmitryforsilov.github.io/empha-test/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^5.11.5",
