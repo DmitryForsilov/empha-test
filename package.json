@@ -2,6 +2,7 @@
   "name": "empha-test",
   "version": "0.8.0",
   "private": true,
+  "homepage": "https://github.com/DmitryForsilov/empha-test",
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^5.11.5",
@@ -23,7 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "NODE_ENV=production gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +61,7 @@
     ]
   },
   "devDependencies": {
-    "eslint-config-airbnb": "^18.2.1"
+    "eslint-config-airbnb": "^18.2.1",
+    "gh-pages": "^3.1.0"
   }
 }
