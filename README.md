@@ -1,7 +1,9 @@
 # Empha Test Exercise
 
 SPA, которое позволяет авторизоваться в сервисе emphasoft и выводить список юзеров.
+
 username: test_super
+
 password: Nf<U4f<rDbtDxAPn
 
 [Link to deploy](https://empha-test.vercel.app/)
